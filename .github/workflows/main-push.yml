@@ -1,0 +1,15 @@
+name: main-push
+on:
+  push:
+    branches:
+      - main
+    types:
+      - ready_for_review
+
+jobs:
+  job-one:
+    uses: ./.github/workflows/env.yml
+    with:
+      env: "a"
+    
+    

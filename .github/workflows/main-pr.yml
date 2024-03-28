@@ -1,0 +1,23 @@
+name: main-pr
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - ready_for_review
+
+jobs:
+  job-one:
+    if: false  # Temporarily disable.
+    runs-on: ubuntu-latest
+    steps:
+      - name: step one
+        run: |
+          echo "Hello"
+      - name: step two
+        run: echo "World"
+
+  job-two:
+    uses: ./.github/workflows/env.yml
+    with:
+      env: "a"
