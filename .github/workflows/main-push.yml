@@ -6,25 +6,21 @@ on:
 
 jobs:
   job-one:
-    if: false  # Temporarily disable.
+    #if: false  # Temporarily disable.
     runs-on: ubuntu-latest
     steps:
       - name: step one
         run: |
           echo "Hello"
       - name: step two
-        run: echo "Hello World, Running Job One"
+        run: echo "World"
 
   job-two:
     needs: job-one
-    if: !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
     uses: ./.github/workflows/env.yml
     with:
       env: "a"
 
-# needs result: success, failure, cancelled, or skipped
-
-#success, failure, cancelled, or skipped
 #  job-three:
 #    if: contains(github.event.head_commit.message, '[do-something]') || contains(github.event.head_commit.message, '[do-something-else]')
 #    needs: job-two
@@ -33,7 +29,7 @@ jobs:
 #      env: "a"
 
 #  # Split job into steps that only run based on a condition.  This allows the job to be a dependency of the next job even if the tasks do not need to run.
-# Problems running reusable workflows from steps.
+# Problems running reusable workfloes from steps.
 #  conditional-tasks:
 #    needs: job-two
 #    runs-on: ubuntu-latest
