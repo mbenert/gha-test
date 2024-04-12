@@ -24,6 +24,6 @@ jobs:
       env: "a"
 
   job-three:
-    if: contains(github.event.pull_request.title, [do-something]) || contains(github.event.head_commit.message, [do-something])
+    if: contains(github.event.pull_request.title, "[do-something]") || contains(github.event.head_commit.message, "[do-something]")
     needs: job-two
     uses: ./.github/workflows/job_three.yml
