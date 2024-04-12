@@ -15,11 +15,12 @@ jobs:
         id: determine-message-or-title
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ] ; then
-            MSG_TITLE=${{ github.event.pull_request.title }}
+            MSG_TITLE="${{ github.event.pull_request.title }}"
           else
-            MSG_TITLE=${{ github.event.head_commit.message }}
+            MSG_TITLE="${{ github.event.head_commit.message }}"
           fi
           echo "MESSAGE_OR_TITLE=${MSG_TITLE}" >> $GITHUB_OUTPUT
+        shell: bash
 
   job-one:
     needs: [setup]
