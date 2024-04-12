@@ -6,7 +6,7 @@ on:
 
 jobs:
   job-one:
-    #if: false  # Temporarily disable.
+    if: false  # Temporarily disable.
     runs-on: ubuntu-latest
     steps:
       - name: step one
