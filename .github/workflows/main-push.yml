@@ -25,3 +25,5 @@ jobs:
     if: contains(github.event.head_commit.message, '[do-something]') || contains(github.event.head_commit.message, '[do-something-else]')
     needs: job-two
     uses: ./.github/workflows/job_three.yml
+    with:
+      env: "a"
