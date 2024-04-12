@@ -16,7 +16,8 @@ jobs:
         run: echo "World"
 
   job-two:
-    needs: job-one
+    needs: [job-one]
+    if: ${{ always() && !failure() && !cancelled() }} # when none of the needed jobs fail or are cancelled (skipped or successful jobs are ok).
     uses: ./.github/workflows/env.yml
     with:
       env: "a"
