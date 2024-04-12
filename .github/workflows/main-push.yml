@@ -6,7 +6,7 @@ on:
 
 jobs:
   setup:
-    runs on: ubuntu-latest
+    runs-on: ubuntu-latest
     outputs:
       test-string: "my test string"
       message-or-title: ${{ steps.determine-message-or-title.outputs.MESSAGE_OR_TITLE }}
