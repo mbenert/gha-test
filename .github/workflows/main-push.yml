@@ -6,8 +6,22 @@ on:
 
 jobs:
   job-one:
+    if: false  # Temporarily disable.
+    runs-on: ubuntu-latest
+    steps:
+      - name: step one
+        run: |
+          echo "Hello"
+      - name: step two
+        run: echo "World"
+
+  job-two:
+    needs: job-one
     uses: ./.github/workflows/env.yml
     with:
       env: "a"
-    
-    
+
+  job-three:
+    if: contains(github.event.head_commit.message, [do-something]) || contains(github.event.head_commit.message, [do-something-else])
+    needs: job-two
+    uses: ./.github/workflows/job_three.yml
