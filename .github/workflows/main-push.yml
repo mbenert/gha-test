@@ -46,7 +46,7 @@ jobs:
     uses: ./.github/workflows/env.yml
     with:
       env: "a"
-
+      message-or-title: ${{ needs.setup.outputs.message-or-title }}
   job-three:
     needs: [setup, job-one, job-two]
     # when none of the needed jobs fail or are cancelled (skipped or successful jobs are ok).
