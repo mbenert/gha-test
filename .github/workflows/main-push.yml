@@ -48,7 +48,7 @@ jobs:
 #          env: "a"
 
   final-job:
-    needs: conditional-tasks
+    needs: job-two
     runs-on: ubuntu-latest
     steps:
       - name: step two
