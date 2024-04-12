@@ -22,6 +22,21 @@ jobs:
     with:
       env: "a"
 
+  job-three:
+    needs: [job-one, job-two]
+    if: ${{ always() && !failure() && !cancelled() }} # when none of the needed jobs fail or are cancelled (skipped or successful jobs are ok).
+    runs-on: ubuntu-latest
+    steps:
+      - name: step two
+        run: echo "Job 3."
+
+  final-job:
+    needs: [job-one, job-two, job-three]
+    if: ${{ always() && !failure() && !cancelled() }} # when none of the needed jobs fail or are cancelled (skipped or successful jobs are ok).
+    runs-on: ubuntu-latest
+    steps:
+      - name: step two
+        run: echo "Final Job."
 #  job-three:
 #    if: contains(github.event.head_commit.message, '[do-something]') || contains(github.event.head_commit.message, '[do-something-else]')
 #    needs: job-two
@@ -48,9 +63,3 @@ jobs:
 #        with:
 #          env: "a"
 
-  final-job:
-    needs: job-two
-    runs-on: ubuntu-latest
-    steps:
-      - name: step two
-        run: echo "Final Job."
