@@ -6,21 +6,21 @@ on:
 
 jobs:
   job-one:
-    #if: false  # Temporarily disable.
+    if: false  # Temporarily disable.
     runs-on: ubuntu-latest
     steps:
       - name: step one
-        run: |
-          echo "Hello"
-      - name: step two
-        run: echo "World"
+        run: echo "Hello World, Running Job One"
 
+#needs result: success, failure, cancelled, or skipped
   job-two:
     needs: job-one
+    if: !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
     uses: ./.github/workflows/env.yml
     with:
       env: "a"
 
+#success, failure, cancelled, or skipped
 #  job-three:
 #    if: contains(github.event.head_commit.message, '[do-something]') || contains(github.event.head_commit.message, '[do-something-else]')
 #    needs: job-two
@@ -28,23 +28,24 @@ jobs:
 #    with:
 #      env: "a"
 
-  # Split job into steps that only run based on a condition.  This allows the job to be a dependency of the next job even if the tasks do not need to run.
-  conditional-tasks:
-    needs: job-two
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v3
-      - name: task-one
-        if: contains(github.event.head_commit.message, '[run-both]')
-        uses: ./.github/workflows/task_one.yml
-        with:
-          env: "a"
-      - name: task-two
-        if: contains(github.event.head_commit.message, '[run-both]') || contains(github.event.head_commit.message, '[run-two]')
-        uses: ./.github/workflows/task_one.yml
-        with:
-          env: "a"
+#  # Split job into steps that only run based on a condition.  This allows the job to be a dependency of the next job even if the tasks do not need to run.
+# Problems running reusable workfloes from steps.
+#  conditional-tasks:
+#    needs: job-two
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Check out repository
+#        uses: actions/checkout@v3
+#      - name: task-one
+#        if: contains(github.event.head_commit.message, '[run-both]')
+#        uses: ./.github/workflows/task_one.yml
+#        with:
+#          env: "a"
+#      - name: task-two
+#        if: contains(github.event.head_commit.message, '[run-both]') || contains(github.event.head_commit.message, '[run-two]')
+#        uses: ./.github/workflows/task_one.yml
+#        with:
+#          env: "a"
 
   final-job:
     needs: conditional-tasks
