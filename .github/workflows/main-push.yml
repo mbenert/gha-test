@@ -10,9 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: step one
+        run: |
+          echo "Hello"
+      - name: step two
         run: echo "Hello World, Running Job One"
 
-#needs result: success, failure, cancelled, or skipped
+# needs result: success, failure, cancelled, or skipped
   job-two:
     needs: job-one
     if: !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
