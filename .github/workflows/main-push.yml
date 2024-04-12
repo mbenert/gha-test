@@ -28,6 +28,7 @@ jobs:
 #    with:
 #      env: "a"
 
+  # Split job into steps that only run based on a condition.  This allows the job to be a dependency of the next job even if the tasks do not need to run.
   conditional-tasks:
     needs: job-two
     runs-on: ubuntu-latest
