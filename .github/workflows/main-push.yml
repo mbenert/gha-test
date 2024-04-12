@@ -19,7 +19,7 @@ jobs:
     needs: [job-one]
     if: | 
       # when none of the needed jobs fail or are cancelled (skipped or successful jobs are ok).
-      ${{ always() && !failure() && !cancelled() }} 
+      always() && !failure() && !cancelled()
       && contains(github.event.head_commit.message, '[job-two]')
     uses: ./.github/workflows/env.yml
     with:
@@ -29,7 +29,7 @@ jobs:
     needs: [job-one, job-two]
     if: | 
       # when none of the needed jobs fail or are cancelled (skipped or successful jobs are ok).
-      ${{ always() && !failure() && !cancelled() }} 
+      always() && !failure() && !cancelled()
       && ( contains(github.event.head_commit.message, '[job-two]') || contains(github.event.head_commit.message, '[job-three]') )
     runs-on: ubuntu-latest
     steps:
@@ -38,7 +38,7 @@ jobs:
 
   final-job:
     needs: [job-one, job-two, job-three]
-    if: ${{ always() && !failure() && !cancelled() }} # when none of the needed jobs fail or are cancelled (skipped or successful jobs are ok).
+    if: always() && !failure() && !cancelled( # when none of the needed jobs fail or are cancelled (skipped or successful jobs are ok).
     runs-on: ubuntu-latest
     steps:
       - name: step two
