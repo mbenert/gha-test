@@ -18,7 +18,7 @@ jobs:
   job-two:
     needs: [job-one]
     # when none of the needed jobs fail or are cancelled (skipped or successful jobs are ok).
-    # And the [job-two] tag is specified
+    # And the [job-two] tag is specified.
     if: | 
       always() && !failure() && !cancelled()
       && contains(github.event.head_commit.message, '[job-two]')
@@ -29,7 +29,7 @@ jobs:
   job-three:
     needs: [job-one, job-two]
     # when none of the needed jobs fail or are cancelled (skipped or successful jobs are ok).
-    # And the [job-two] or [job-three] tag is specified
+    # And the [job-two] or [job-three] tag is specified.
     if: | 
       always() && !failure() && !cancelled()
       && ( contains(github.event.head_commit.message, '[job-two]') || contains(github.event.head_commit.message, '[job-three]') )
