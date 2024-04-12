@@ -14,7 +14,7 @@ jobs:
       - name: Foo
         id: determine-message-or-title
         run: |
-          if [ "${github.event_name}" == "pull_request" ] ; then
+          if [ "${{ github.event_name }}" == "pull_request" ] ; then
             TEMP=${{ github.event.pull_request.title }}
           else
             TEMP=${{ github.event.head_commit.message }}
@@ -22,6 +22,7 @@ jobs:
           echo "MESSAGE_OR_TITLE=${TEMP}" >> $GITHUB_OUTPUT
 
   job-one:
+    needs: [setup]
     #if: false  # Temporarily disable.
     runs-on: ubuntu-latest
     env:
@@ -35,7 +36,7 @@ jobs:
         run: echo "World"
 
   job-two:
-    needs: [job-one]
+    needs: [setup, job-one]
     # when none of the needed jobs fail or are cancelled (skipped or successful jobs are ok).
     # And the [job-two] tag is specified.
     if: | 
@@ -46,7 +47,7 @@ jobs:
       env: "a"
 
   job-three:
-    needs: [job-one, job-two]
+    needs: [setup, job-one, job-two]
     # when none of the needed jobs fail or are cancelled (skipped or successful jobs are ok).
     # And the [job-two] or [job-three] tag is specified.
     if: | 
@@ -58,7 +59,7 @@ jobs:
         run: echo "Job 3."
 
   final-job:
-    needs: [job-one, job-two, job-three]
+    needs: [setup, job-one, job-two, job-three]
     if: always() && !failure() && !cancelled() # when none of the needed jobs fail or are cancelled (skipped or successful jobs are ok).
     runs-on: ubuntu-latest
     steps:
