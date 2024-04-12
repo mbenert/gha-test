@@ -15,13 +15,14 @@ jobs:
       - name: step two
         run: echo "Hello World, Running Job One"
 
-# needs result: success, failure, cancelled, or skipped
   job-two:
     needs: job-one
     if: !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
     uses: ./.github/workflows/env.yml
     with:
       env: "a"
+
+# needs result: success, failure, cancelled, or skipped
 
 #success, failure, cancelled, or skipped
 #  job-three:
@@ -32,7 +33,7 @@ jobs:
 #      env: "a"
 
 #  # Split job into steps that only run based on a condition.  This allows the job to be a dependency of the next job even if the tasks do not need to run.
-# Problems running reusable workfloes from steps.
+# Problems running reusable workflows from steps.
 #  conditional-tasks:
 #    needs: job-two
 #    runs-on: ubuntu-latest
