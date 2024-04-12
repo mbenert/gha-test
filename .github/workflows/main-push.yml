@@ -17,8 +17,8 @@ jobs:
 
   job-two:
     needs: [job-one]
+    # when none of the needed jobs fail or are cancelled (skipped or successful jobs are ok).
     if: | 
-      # when none of the needed jobs fail or are cancelled (skipped or successful jobs are ok).
       always() && !failure() && !cancelled()
       && contains(github.event.head_commit.message, '[job-two]')
     uses: ./.github/workflows/env.yml
@@ -27,8 +27,8 @@ jobs:
 
   job-three:
     needs: [job-one, job-two]
+    # when none of the needed jobs fail or are cancelled (skipped or successful jobs are ok).
     if: | 
-      # when none of the needed jobs fail or are cancelled (skipped or successful jobs are ok).
       always() && !failure() && !cancelled()
       && ( contains(github.event.head_commit.message, '[job-two]') || contains(github.event.head_commit.message, '[job-three]') )
     runs-on: ubuntu-latest
