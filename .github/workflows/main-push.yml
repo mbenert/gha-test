@@ -21,15 +21,15 @@ jobs:
     with:
       env: "a"
 
-  job-three:
-    if: contains(github.event.head_commit.message, '[do-something]') || contains(github.event.head_commit.message, '[do-something-else]')
-    needs: job-two
-    uses: ./.github/workflows/job_three.yml
-    with:
-      env: "a"
+#  job-three:
+#    if: contains(github.event.head_commit.message, '[do-something]') || contains(github.event.head_commit.message, '[do-something-else]')
+#    needs: job-two
+#    uses: ./.github/workflows/job_three.yml
+#    with:
+#      env: "a"
 
   conditional-tasks:
-    needs: job-three
+    needs: job-two
     runs-on: ubuntu-latest
     steps:
       - name: task-one
