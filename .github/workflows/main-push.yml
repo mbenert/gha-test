@@ -5,12 +5,31 @@ on:
       - main
 
 jobs:
+  setup:
+    runs on: ubuntu-latest
+    outputs:
+      test-string: "my test string"
+      message-or-title: ${{ steps.determine-message-or-title.outputs.MESSAGE_OR_TITLE }}
+    steps:
+      - name: Foo
+        id: determine-message-or-title
+        run: |
+          if [ "${github.event_name}" == "pull_request" ] ; then
+            TEMP=${{ github.event.pull_request.title }}
+          else
+            TEMP=${{ github.event.head_commit.message }}
+          fi
+          echo "MESSAGE_OR_TITLE=${TEMP}" >> $GITHUB_OUTPUT
+
   job-one:
     #if: false  # Temporarily disable.
     runs-on: ubuntu-latest
+    env:
+      MESSAGE_OR_TITLE: ${{ needs.setup.outputs.message-or-title }}
     steps:
       - name: step one
         run: |
+          echo "${MESSAGE_OR_TITLE}"
           echo "Hello"
       - name: step two
         run: echo "World"
